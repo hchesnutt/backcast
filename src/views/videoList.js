@@ -3,8 +3,7 @@ var VideoListView = Backbone.View.extend({
   // create sync event listener
   initialize: function() {
     this.render();
-    console.log(this.collection);
-    this.collection.on('sync', this.render, this);
+    // this.collection.on('sync', this.render, this);
   },
 
   render: function() {
@@ -13,7 +12,7 @@ var VideoListView = Backbone.View.extend({
     // for each video, render videoListEntry and append to video-list
     var context = this;
     this.collection.forEach(function(video) {
-      context.renderVideo(video);
+      this.$('.video-list').append(context.renderVideo(video).el);
     });
    
     return this;
@@ -21,8 +20,7 @@ var VideoListView = Backbone.View.extend({
   
   renderVideo: function(video) {
     // instantiate new instance of videoListEntry - View
-    new VideoListEntryView({
-      el: this.$('.video-list'),
+    return new VideoListEntryView({
       model: video
     });
   },
