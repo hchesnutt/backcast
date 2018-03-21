@@ -3,7 +3,7 @@ var VideoListView = Backbone.View.extend({
   // create sync event listener
   initialize: function() {
     this.render();
-    // this.collection.on('sync', this.render, this);
+    this.collection.on('reset', this.render, this);
   },
 
   render: function() {

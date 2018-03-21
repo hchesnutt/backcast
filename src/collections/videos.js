@@ -10,7 +10,7 @@ var Videos = Backbone.Collection.extend({
     let params = {
       'maxResults': '5',
       'part': 'snippet',
-      'q': 'surfing',
+      'q': string,
       'key': window.YOUTUBE_API_KEY
     };
     
@@ -20,11 +20,16 @@ var Videos = Backbone.Collection.extend({
       data: params,
       contentType: 'application/json',
       success: data => {
-        console.log(data.items);
+        // remove old videos and add new ones
+        this.reset(this.parse(data));
       },
       error: error => {
         console.log('You dun screwed the pooch:', error);
       }
     }); 
+  },
+  
+  parse: function(data) {
+    return data.items;
   }
 });

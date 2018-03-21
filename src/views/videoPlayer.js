@@ -1,22 +1,29 @@
 var VideoPlayerView = Backbone.View.extend({
   
   el: '.player',
-  // selected video is static
+  selectedVideo: '',
 
   initialize: function() {
+    this.selectedVideo = this.collection.at(0);
     this.render();
+    this.collection.on('reset', this.resetHandler, this);
     this.collection.on('select', this.selectHandler, this);
   },
   
-  render: function(video) {
-    var newVideo = video || this.collection.at(0);
-    this.$el.html(this.template(newVideo.attributes));
+  render: function(collection) {
+    this.$el.html(this.template(this.selectedVideo.attributes));
   },
   
   selectHandler: function(video) {
-    this.render(video);
+    this.selectedVideo = video;
+    this.render();
   },
-
+  
+  resetHandler: function(resetCollection) {
+    this.selectedVideo = resetCollection.at(0);
+    this.render();
+  },
+  
   template: templateURL('src/templates/videoPlayer.html')
 
 });
